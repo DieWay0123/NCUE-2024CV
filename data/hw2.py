@@ -1,20 +1,21 @@
 import cv2
+import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 
-def sobel(image, method=1):
+def sobel(image, method=0):
   height, width = image.shape
   new_image = np.zeros_like(image)
   
   GX = np.array(
-    [-1, 0, 1],
+    [[-1, 0, 1],
     [-2, 0, 2],
-    [-1, 0, 1]
+    [-1, 0, 1]]
   , dtype=np.float32)
   GY = np.array(
-    [-1, -2, -1],
+    [[-1, -2, -1],
     [0, 0, 0],
-    [1, 2, 1]
+    [1, 2, 1]]
   , dtype=np.float32)
   
   for y in range(height-2):
@@ -25,14 +26,16 @@ def sobel(image, method=1):
         new_image[y+1, x+1] = np.abs(gx)+np.abs(gy)
       else:
         new_image[y+1, x+1] = np.sqrt(gx**2+gy**2)
-
+        
   return new_image
 
-if __name__ == 'main':
+if __name__ == "__main__":
   image = cv2.imread('lena.bmp', cv2.IMREAD_GRAYSCALE)
-  
   image_sobel = sobel(image)
-  cv2.imwrite('test.bmp', image_sobel)
+  cv2Sobel = cv2.Sobel(image, ddepth=-1, dx=1, dy=0)
+  
+  cv2.imwrite('cv2Sobel.bmp', cv2Sobel)
+  cv2.imwrite('customSobel.bmp', image_sobel)
   plt.figure()
   plt.imshow(image_sobel, cmap='gray')
   plt.show()
