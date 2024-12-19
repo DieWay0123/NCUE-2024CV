@@ -3,7 +3,6 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 import enum
-import queue
 
 SOBEL_GX = np.array(
     [[-1, -2, -1],
